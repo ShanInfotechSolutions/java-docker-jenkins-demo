@@ -7,25 +7,18 @@ pipeline {
   }
 
   stages {
-    stage('Clone') {
-      steps {
-        git url: 'https://github.com/ShanInfotechSolutions/java-docker-jenkins-demo.git'
-      }
-    }
     stage('Build with Maven') {
       steps {
-        dir('java8examples/javaPrograms/DockerIntegratingDemo') {
-          sh 'mvn clean package'
-        }
+        sh 'mvn clean package'
       }
     }
+
     stage('Build Docker Image') {
       steps {
-        dir('java8examples/javaPrograms/DockerIntegratingDemo') {
-          sh 'docker build -t $IMAGE_NAME:$TAG .'
-        }
+        sh 'docker build -t $IMAGE_NAME:$TAG .'
       }
     }
+
     stage('Run Docker Container') {
       steps {
         sh 'docker run --rm $IMAGE_NAME:$TAG'
